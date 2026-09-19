@@ -20,6 +20,7 @@ pipeline {
             steps {
                 sh 'chmod +x app.sh'
                 sh './app.sh'
+                sh 'docker build -t jenkins-lab:1.0 .'
             }
         }
 
