@@ -35,8 +35,9 @@ pipeline {
         }
 stage('Deploy') {
     steps {
-        sh 'kubectl set image deployment/jenkins-lab-app jenkins-lab=sumedhkakde/jenkins-lab:1.0'
-        sh 'kubectl rollout status deployment/jenkins-lab-app'
+        sh 'KUBECONFIG=/etc/rancher/k3s/jenkins-kubeconfig.yaml kubectl get nodes'
+        sh 'KUBECONFIG=/etc/rancher/k3s/jenkins-kubeconfig.yaml kubectl set image deployment/jenkins-lab-app jenkins-lab=sumedhkakde/jenkins-lab:1.0'
+        sh 'KUBECONFIG=/etc/rancher/k3s/jenkins-kubeconfig.yaml kubectl rollout status deployment/jenkins-lab-app'
     }
 }
     }
