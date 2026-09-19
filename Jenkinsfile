@@ -37,7 +37,7 @@ stage('Deploy') {
     steps {
         sh 'docker pull sumedhkakde/jenkins-lab:1.0'
         sh 'docker rm -f jenkins-lab-app || true'
-        sh 'docker run -d --name jenkins-lab-app sumedhkakde/jenkins-lab:1.0'
+       sh 'docker run -d --name jenkins-lab-app -p 8081:8080 sumedhkakde/jenkins-lab:1.0'
     }
 }
     }
