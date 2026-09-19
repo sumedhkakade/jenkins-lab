@@ -1,0 +1,7 @@
+FROM jenkins/inbound-agent:latest-alpine-jdk21
+
+USER root
+
+RUN apk add --no-cache docker-cli
+
+USER jenkins
