@@ -35,9 +35,8 @@ pipeline {
         }
 stage('Deploy') {
     steps {
-        sh 'docker pull sumedhkakde/jenkins-lab:1.0'
-        sh 'docker rm -f jenkins-lab-app || true'
-       sh 'docker run -d --name jenkins-lab-app -p 8081:8080 sumedhkakde/jenkins-lab:1.0'
+        sh 'kubectl set image deployment/jenkins-lab-app jenkins-lab=sumedhkakde/jenkins-lab:1.0'
+        sh 'kubectl rollout status deployment/jenkins-lab-app'
     }
 }
     }
