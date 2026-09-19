@@ -34,7 +34,13 @@ pipeline {
                 echo 'Running tests...'
             }
         }
-
+stage('Deploy') {
+    steps {
+        sh 'docker pull sumedhkakde/jenkins-lab:1.0'
+        sh 'docker rm -f jenkins-lab-app || true'
+        sh 'docker run -d --name jenkins-lab-app sumedhkakde/jenkins-lab:1.0'
+    }
+}
     }
 
     post {
