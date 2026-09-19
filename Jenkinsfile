@@ -24,6 +24,7 @@ pipeline {
                 sh 'chmod +x app.sh'
                 sh './app.sh'
                 sh 'docker build -t sumedhkakde/jenkins-lab:1.0 .'
+                sh 'echo "$DOCKERHUB_CREDENTIALS_PSW" | docker login -u "$DOCKERHUB_CREDENTIALS_USR" --password-stdin'
             }
         }
 
