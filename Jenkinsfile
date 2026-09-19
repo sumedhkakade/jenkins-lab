@@ -3,11 +3,40 @@ pipeline {
         label 'docker-agent'
     }
 
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
     stages {
-        stage('Hello') {
+
+        stage('Prepare') {
             steps {
-                echo 'Hello from GitHub + Jenkins!'
+                echo 'Preparing CI pipeline...'
             }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building application...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'CI Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'CI Pipeline failed!'
         }
     }
 }
