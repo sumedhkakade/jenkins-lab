@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "================================"
-echo " Jenkins Lab Application"
-echo "================================"
-echo "Hello from my Jenkins application!"
-echo "Hostname: $(hostname)"
-echo "Date: $(date)"
-echo "================================"
+echo "Starting Jenkins Lab Application..."
+
+while true
+do
+    echo "Jenkins Lab Application is running..."
+    sleep 30
+done
