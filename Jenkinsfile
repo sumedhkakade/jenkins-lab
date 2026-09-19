@@ -7,6 +7,9 @@ pipeline {
         timestamps()
         disableConcurrentBuilds()
     }
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+}
 
     stages {
 
