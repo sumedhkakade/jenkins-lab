@@ -3,52 +3,26 @@ pipeline {
         label 'docker-agent'
     }
 
-    options {
-        timestamps()
-        disableConcurrentBuilds()
-    }
-    environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-}
-
     stages {
 
-        stage('Prepare') {
+        stage('Validate Package') {
             steps {
-                echo 'Preparing CI pipeline...'
+                sh '''
+                    echo "Validating new package..."
+                    test -f package/new/version.txt
+                    cat package/new/version.txt
+                    echo "Package validation successful"
+                '''
             }
         }
-
-        stage('Build') {
-            steps {
-                sh 'chmod +x app.sh'
-                sh 'docker build -t sumedhkakde/jenkins-lab:1.0 .'
-                sh 'echo "$DOCKERHUB_CREDENTIALS_PSW" | docker login -u "$DOCKERHUB_CREDENTIALS_USR" --password-stdin'
-                sh 'docker push sumedhkakde/jenkins-lab:1.0'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-            }
-        }
-stage('Deploy') {
+stage('Deploy Package') {
     steps {
-        sh 'KUBECONFIG=/etc/rancher/k3s/jenkins-kubeconfig.yaml kubectl get nodes'
-        sh 'KUBECONFIG=/etc/rancher/k3s/jenkins-kubeconfig.yaml kubectl set image deployment/jenkins-lab-app jenkins-lab=sumedhkakde/jenkins-lab:1.0'
-        sh 'KUBECONFIG=/etc/rancher/k3s/jenkins-kubeconfig.yaml kubectl rollout status deployment/jenkins-lab-app'
+        sh '''
+            echo "Starting package upgrade..."
+            cp package/new/version.txt package/old/version.txt
+            echo "Package upgrade completed"
+        '''
     }
 }
-    }
-
-    post {
-        success {
-            echo 'CI Pipeline completed successfully!'
-        }
-
-        failure {
-            echo 'CI Pipeline failed!'
-        }
     }
 }
